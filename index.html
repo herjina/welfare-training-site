@@ -898,6 +898,15 @@
           <button class="small-button" id="save-course" type="button">교육과정 추가</button>
           <p class="helper-text">새 과정을 추가하면 실습과정, 자료, 패들렛, 프롬프트, 결과물 예시 기능이 자동으로 적용됩니다.</p>
         </div>
+
+        <div class="manager-box admin-only">
+          <label class="field-label">강사용 데이터 백업</label>
+          <div class="stack-actions">
+            <button class="small-button" id="export-data-home" type="button">데이터 내보내기</button>
+            <button class="small-button" id="import-data-home" type="button">데이터 가져오기</button>
+          </div>
+          <p class="helper-text">과정 목록 화면에서도 백업 파일을 저장하거나 가져올 수 있습니다.</p>
+        </div>
       </div>
     </section>
 
@@ -1181,6 +1190,8 @@
     const exportData = document.querySelector("#export-data");
     const importData = document.querySelector("#import-data");
     const importDataFile = document.querySelector("#import-data-file");
+    const exportDataHome = document.querySelector("#export-data-home");
+    const importDataHome = document.querySelector("#import-data-home");
     const backToCourses = document.querySelector("#back-to-courses");
     const copyCourseLink = document.querySelector("#copy-course-link");
     const newCourseTitle = document.querySelector("#new-course-title");
@@ -1232,6 +1243,7 @@
 
     let currentCourseKey = "";
     let currentCourseFilter = "basic";
+    let editingFlowBlockId = "";
     const searchParams = new URLSearchParams(window.location.search);
     const sharedCourseKey = searchParams.get("course");
     let sharedCourseMode = Boolean(sharedCourseKey);
@@ -1461,6 +1473,19 @@
       localStorage.setItem(`flow-${courseKey}`, JSON.stringify(blocks));
     }
 
+    function getUrlsFromText(text) {
+      return (text.match(/https?:\/\/[^\s<>"']+/g) || [])
+        .map((url) => url.replace(/[),.]+$/, ""));
+    }
+
+    function resetFlowForm() {
+      editingFlowBlockId = "";
+      flowTitle.value = "";
+      flowContent.value = "";
+      flowFile.value = "";
+      saveFlow.textContent = "수업 흐름에 추가";
+    }
+
     function getAdminPassword() {
       return localStorage.getItem("admin-password") || defaultAdminPassword;
     }
@@ -1647,6 +1672,57 @@
         .forEach((key) => localStorage.removeItem(key));
     }
 
+    async function applyBackupData(backup, options = {}) {
+      const includeAdminPassword = options.includeAdminPassword === true;
+
+      Object.entries(backup.localStorage || {}).forEach(([key, value]) => {
+        if (!isSiteStorageKey(key)) {
+          return;
+        }
+
+        if (!includeAdminPassword && key === "admin-password") {
+          return;
+        }
+
+        localStorage.setItem(key, value);
+      });
+
+      for (const fileRecord of backup.files || []) {
+        await saveFileRecord({
+          id: fileRecord.id,
+          courseKey: fileRecord.courseKey,
+          kind: fileRecord.kind,
+          name: fileRecord.name,
+          savedAt: fileRecord.savedAt,
+          blob: dataUrlToBlob(fileRecord.dataUrl)
+        });
+      }
+
+      loadCustomCourses();
+    }
+
+    async function loadPublishedBackupIfNeeded(courseKey) {
+      if (!courseKey || courseData[courseKey] || window.location.protocol === "file:") {
+        return;
+      }
+
+      try {
+        const response = await fetch("welfare-training-backup-2026-06-28.json", { cache: "no-store" });
+        if (!response.ok) {
+          return;
+        }
+
+        const backup = await response.json();
+        if (backup.app !== "welfare-training-site") {
+          return;
+        }
+
+        await applyBackupData(backup, { includeAdminPassword: false });
+      } catch (error) {
+        console.warn("공개 백업 데이터를 불러오지 못했습니다.", error);
+      }
+    }
+
     function getCourseCategory(courseKey, course) {
       if (course.category === "basic" || course.category === "advanced") {
         return course.category;
@@ -1827,6 +1903,24 @@
           const content = document.createElement("p");
           content.textContent = block.content;
           item.appendChild(content);
+
+          const urls = getUrlsFromText(block.content);
+          if (urls.length > 0 && block.type !== "prompt" && block.type !== "padlet") {
+            const linkActions = document.createElement("div");
+            linkActions.className = "stack-actions";
+
+            urls.forEach((url, index) => {
+              const linkButton = document.createElement("a");
+              linkButton.className = "small-button";
+              linkButton.href = url;
+              linkButton.target = "_blank";
+              linkButton.rel = "noopener";
+              linkButton.textContent = urls.length === 1 ? "사이트 열기" : `사이트 ${index + 1} 열기`;
+              linkActions.appendChild(linkButton);
+            });
+
+            item.appendChild(linkActions);
+          }
         }
 
         if (block.fileId) {
@@ -1946,6 +2040,20 @@
             }
           });
 
+          const editButton = document.createElement("button");
+          editButton.className = "small-button";
+          editButton.type = "button";
+          editButton.textContent = "수정";
+          editButton.addEventListener("click", () => {
+            editingFlowBlockId = block.id;
+            flowType.value = block.type || "lesson";
+            flowTitle.value = block.title || "";
+            flowContent.value = block.content || "";
+            flowFile.value = "";
+            saveFlow.textContent = "수정 저장";
+            flowTitle.focus();
+          });
+
           const deleteButton = document.createElement("button");
           deleteButton.className = "small-button";
           deleteButton.type = "button";
@@ -1958,7 +2066,7 @@
             renderFlow(courseKey);
           });
 
-          actions.append(upButton, downButton, deleteButton);
+          actions.append(upButton, downButton, editButton, deleteButton);
           item.appendChild(actions);
         }
 
@@ -2307,6 +2415,14 @@
       importDataFile.click();
     });
 
+    exportDataHome.addEventListener("click", () => {
+      exportData.click();
+    });
+
+    importDataHome.addEventListener("click", () => {
+      importData.click();
+    });
+
     importDataFile.addEventListener("change", async () => {
       const file = importDataFile.files[0];
       if (!file) {
@@ -2327,23 +2443,8 @@
         }
 
         clearSiteStorageData();
-        Object.entries(backup.localStorage || {}).forEach(([key, value]) => {
-          if (isSiteStorageKey(key)) {
-            localStorage.setItem(key, value);
-          }
-        });
-
         await clearFileRecords();
-        for (const fileRecord of backup.files || []) {
-          await saveFileRecord({
-            id: fileRecord.id,
-            courseKey: fileRecord.courseKey,
-            kind: fileRecord.kind,
-            name: fileRecord.name,
-            savedAt: fileRecord.savedAt,
-            blob: dataUrlToBlob(fileRecord.dataUrl)
-          });
-        }
+        await applyBackupData(backup, { includeAdminPassword: true });
 
         alert("백업 데이터를 가져왔습니다. 화면을 새로고침합니다.");
         window.location.reload();
@@ -2376,25 +2477,34 @@
       }
 
       const blocks = getSavedFlow(currentCourseKey);
-      const block = {
-        id: `${currentCourseKey}-flow-${Date.now()}`,
-        type,
-        title,
-        content,
-        fileId: ""
-      };
+      const editingIndex = blocks.findIndex((block) => block.id === editingFlowBlockId);
+      const isEditing = editingIndex >= 0;
+      const block = isEditing
+        ? { ...blocks[editingIndex], type, title, content }
+        : {
+            id: `${currentCourseKey}-flow-${Date.now()}`,
+            type,
+            title,
+            content,
+            fileId: ""
+          };
 
       const finishSave = () => {
-        blocks.push(block);
+        if (isEditing) {
+          blocks[editingIndex] = block;
+        } else {
+          blocks.push(block);
+        }
         saveFlowBlocks(currentCourseKey, blocks);
-        flowTitle.value = "";
-        flowContent.value = "";
-        flowFile.value = "";
+        resetFlowForm();
         renderFlow(currentCourseKey);
       };
 
       if (flowFile.files.length > 0) {
         const file = flowFile.files[0];
+        if (isEditing && block.fileId) {
+          await deleteFileRecord(block.fileId);
+        }
         block.fileId = `${currentCourseKey}-flow-file-${Date.now()}-${file.name}`;
         await saveFileRecord({
           id: block.fileId,
@@ -2426,6 +2536,7 @@
       }
 
       saveFlowBlocks(currentCourseKey, []);
+      resetFlowForm();
       renderFlow(currentCourseKey);
     });
 
@@ -2649,12 +2760,17 @@
       }, 2200);
     });
 
-    loadCustomCourses();
-    renderCourseCards();
+    async function initPage() {
+      loadCustomCourses();
+      await loadPublishedBackupIfNeeded(sharedCourseKey);
+      renderCourseCards();
 
-    if (sharedCourseKey) {
-      openCourse(sharedCourseKey);
+      if (sharedCourseKey) {
+        openCourse(sharedCourseKey);
+      }
     }
+
+    initPage();
   </script>
 </body>
 </html>
