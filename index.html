@@ -1,0 +1,2660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>사회복지종사자 역량강화교육</title>
+  <style>
+    /*
+      ==========================================
+      사회복지종사자 역량강화교육 자료실
+      - index.html 하나만 수정하면 됩니다.
+      - 메인 화면에는 교육과정만 보이고,
+        교육과정을 클릭하면 해당 과정의 실습/자료실로 이동합니다.
+      - 실제 다운로드 링크는 아래 JavaScript의 courseData에서 바꾸세요.
+      ==========================================
+    */
+
+    :root {
+      --blue: #1d63d8;
+      --blue-dark: #164ba3;
+      --blue-soft: #eaf2ff;
+      --text: #172033;
+      --muted: #5f6f89;
+      --line: #dde6f3;
+      --surface: #ffffff;
+      --surface-soft: #f6f9fe;
+      --shadow: 0 12px 28px rgba(28, 63, 116, 0.1);
+      --radius: 8px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--text);
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-menu a,
+    .nav-menu button {
+      padding: 9px 12px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a:focus,
+    .nav-menu button:hover,
+    .nav-menu button:focus,
+    .nav-menu button.is-active {
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      outline: none;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .hero {
+      padding: 78px 0 68px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(234, 242, 255, 0.94), rgba(255, 255, 255, 0.92)),
+        url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      margin: 0 0 16px;
+      padding: 7px 12px;
+      border: 1px solid #c8daf7;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--blue-dark);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 18px 0 0;
+      color: #35445f;
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .home-showcase {
+      padding: 56px 0;
+      background: #ffffff;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 8px 22px rgba(28, 63, 116, 0.06);
+    }
+
+    .feature-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue-dark);
+      font-size: 18px;
+    }
+
+    .home-note {
+      margin-top: 24px;
+      padding: 26px;
+      border: 1px solid #c8daf7;
+      border-radius: 8px;
+      background: linear-gradient(120deg, #f8fbff, #ffffff);
+      color: #33425d;
+    }
+
+    .home-note strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 22px;
+    }
+
+    section {
+      scroll-margin-top: 88px;
+      padding: 68px 0;
+    }
+
+    .section-head {
+      max-width: 780px;
+      margin-bottom: 28px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 38px);
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 100%;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 8px 22px rgba(28, 63, 116, 0.06);
+    }
+
+    .course-card {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .course-card:hover,
+    .course-card:focus {
+      transform: translateY(-2px);
+      border-color: #a9c5ef;
+      box-shadow: var(--shadow);
+      outline: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 14px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .course-link {
+      margin-top: auto;
+      padding-top: 18px;
+      color: var(--blue-dark);
+      font-weight: 900;
+    }
+
+    .detail-section {
+      display: none;
+      background: var(--surface-soft);
+      border-top: 1px solid var(--line);
+    }
+
+    .is-hidden {
+      display: none;
+    }
+
+    .detail-section.is-open {
+      display: block;
+    }
+
+    .detail-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    body.shared-course .nav-menu,
+    body.shared-course #back-to-courses {
+      display: none;
+    }
+
+    body.shared-course .hero,
+    body.shared-course #home-showcase,
+    body.shared-course #courses {
+      display: none !important;
+    }
+
+    body.shared-course #course-detail {
+      border-top: 0;
+      padding-top: 42px;
+    }
+
+    .detail-title {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: 0;
+    }
+
+    .detail-summary {
+      max-width: 760px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid var(--blue);
+      border-radius: 8px;
+      background: var(--blue);
+      color: #ffffff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .button.secondary {
+      background: #ffffff;
+      color: var(--blue-dark);
+      border-color: #b8cef1;
+    }
+
+    .button:hover,
+    .button:focus {
+      background: var(--blue-dark);
+      color: #ffffff;
+      outline: none;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .wide-card {
+      grid-column: span 1;
+    }
+
+    #flow-card {
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    #practice-card,
+    #download-card,
+    #padlet-card,
+    #prompt-card,
+    #example-card {
+      display: none !important;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: #33425d;
+    }
+
+    .download-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .download-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .download-item strong {
+      display: block;
+      color: var(--text);
+    }
+
+    .download-item span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .small-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid #b8cef1;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--blue-dark);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .small-button:hover,
+    .small-button:focus {
+      background: var(--blue-soft);
+      outline: none;
+    }
+
+    .upload-box {
+      border: 1px dashed #9fbbdf;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 18px;
+    }
+
+    .upload-box input {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fbff;
+    }
+
+    .notice {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .manager-box {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fbff;
+    }
+
+    .field-label {
+      color: #33425d;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .text-input,
+    .textarea {
+      width: 100%;
+      border: 1px solid #cfdcf0;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .text-input {
+      min-height: 42px;
+      padding: 9px 12px;
+    }
+
+    .textarea {
+      min-height: 130px;
+      padding: 12px;
+      resize: vertical;
+    }
+
+    .helper-text,
+    .empty-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .stack-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .admin-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 18px;
+    }
+
+    .admin-only {
+      display: none;
+    }
+
+    body.admin-mode .admin-only {
+      display: grid;
+    }
+
+    body.admin-mode .admin-only.stack-actions,
+    body.admin-mode .admin-only.admin-bar {
+      display: flex;
+    }
+
+    body.admin-mode .detail-actions .admin-only {
+      display: inline-flex;
+    }
+
+    .prompt-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .prompt-item {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .flow-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .flow-block {
+      display: grid;
+      gap: 12px;
+      padding: 20px;
+      border: 1px solid #cfdcf0;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .flow-block h4 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .flow-block p {
+      margin: 0;
+      color: #44536d;
+    }
+
+    .flow-image {
+      width: min(900px, 100%);
+      max-height: 560px;
+      object-fit: contain;
+      justify-self: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fbff;
+    }
+
+    .select-input {
+      min-height: 42px;
+      padding: 9px 12px;
+      border: 1px solid #cfdcf0;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .example-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .example-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(12, 22, 38, 0.68);
+    }
+
+    .image-modal.is-open {
+      display: flex;
+    }
+
+    .image-modal-panel {
+      width: min(980px, 100%);
+      max-height: 90vh;
+      padding: 18px;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+      overflow: auto;
+    }
+
+    .image-modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .image-modal-title {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .image-preview {
+      width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fbff;
+    }
+
+    .prompt-box {
+      min-height: 130px;
+      padding: 16px;
+      border: 1px solid #cfdcf0;
+      border-radius: 8px;
+      background: #f8fbff;
+      color: #263652;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .copy-message {
+      min-height: 22px;
+      margin-top: 8px;
+      color: var(--blue-dark);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    @media (max-width: 960px) {
+      .nav-wrap {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .grid,
+      .feature-grid,
+      .detail-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .wide-card {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container,
+      .nav-wrap {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .grid,
+      .feature-grid,
+      .detail-grid,
+      .detail-top {
+        grid-template-columns: 1fr;
+      }
+
+      .wide-card {
+        grid-column: span 1;
+      }
+
+      .download-item {
+        grid-template-columns: 1fr;
+      }
+
+      .button,
+      .small-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#home" aria-label="홈으로 이동">
+        <span class="brand-mark">W</span>
+        <span class="brand-title">사회복지종사자<br />역량강화교육</span>
+      </a>
+
+      <nav class="nav-menu" aria-label="주요 메뉴">
+        <a href="#home">홈</a>
+        <button class="course-filter is-active" type="button" data-filter="basic">기초 과정</button>
+        <button class="course-filter" type="button" data-filter="advanced">심화 과정</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <p class="eyebrow">사회복지 현장형 AI 교육</p>
+        <h1 id="hero-title">사회복지종사자 역량강화교육</h1>
+        <p>
+          교육과정별 실습 흐름, 강의자료, 프롬프트, 패들렛 제출, 결과물 예시를 한곳에서 관리하고
+          수업 중 바로 따라 할 수 있도록 구성한 교육 운영 페이지입니다.
+        </p>
+        <div class="hero-actions">
+          <button class="button course-filter" type="button" data-filter="basic">기초 과정 보기</button>
+          <button class="button secondary course-filter" type="button" data-filter="advanced">심화 과정 보기</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-showcase" id="home-showcase" aria-label="홈 소개">
+      <div class="container">
+        <div class="feature-grid">
+          <div class="feature-card">
+            <strong>현장 중심</strong>
+            사회복지기관 업무와 교육 현장에서 바로 활용할 수 있는 실습으로 구성합니다.
+          </div>
+          <div class="feature-card">
+            <strong>따라 하는 실습</strong>
+            교육생이 차시별 내용을 확인하고 자료를 보며 차근차근 참여할 수 있습니다.
+          </div>
+          <div class="feature-card">
+            <strong>결과 공유</strong>
+            수업 중 만든 결과물을 함께 확인하고 다음 활동으로 자연스럽게 이어갑니다.
+          </div>
+        </div>
+        <div class="home-note">
+          <strong>교육자료는 과정 안에서 확인하세요</strong>
+          기초 과정 또는 심화 과정을 선택하면 해당 과정의 실습 안내, 자료, 프롬프트, 제출 링크를 확인할 수 있습니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="courses" class="is-hidden" aria-labelledby="courses-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="courses-title">교육과정</h2>
+          <p>과정을 선택하면 해당 과정 화면으로 이동합니다.</p>
+        </div>
+
+        <!-- 교육과정 카드: data-course 값은 JavaScript의 courseData 이름과 맞춰야 합니다. -->
+        <div class="grid" id="course-grid">
+          <button class="card course-card" type="button" data-course="chatgpt">
+            <span class="tag">AI 업무</span>
+            <h3>ChatGPT 업무 활용</h3>
+            <p>공문, 회의록, 안내문, 보고서 초안 작성에 활용합니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+
+          <button class="card course-card" type="button" data-course="opal">
+            <span class="tag">챗봇</span>
+            <h3>Google Opal 복지 챗봇 만들기</h3>
+            <p>복지서비스 안내 챗봇의 대화 흐름을 설계합니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+
+          <button class="card course-card" type="button" data-course="canva">
+            <span class="tag">디자인</span>
+            <h3>Canva 홍보 콘텐츠 제작</h3>
+            <p>카드뉴스, 포스터, 행사 안내 이미지를 제작합니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+
+          <button class="card course-card" type="button" data-course="image">
+            <span class="tag">이미지</span>
+            <h3>생성형 AI 이미지 만들기</h3>
+            <p>복지사업 홍보용 이미지 프롬프트를 작성합니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+
+          <button class="card course-card" type="button" data-course="forms">
+            <span class="tag">설문</span>
+            <h3>구글 설문지 만족도 조사 만들기</h3>
+            <p>만족도 조사 문항과 응답 결과 확인 흐름을 만듭니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+
+          <button class="card course-card" type="button" data-course="script">
+            <span class="tag">자동화</span>
+            <h3>앱스스크립트 업무 자동화</h3>
+            <p>반복 업무를 줄이는 간단한 자동화를 구성합니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+
+          <button class="card course-card" type="button" data-course="notebooklm">
+            <span class="tag">자료분석</span>
+            <h3>NotebookLM 자료 요약과 질의응답</h3>
+            <p>긴 문서를 요약하고 질문 기반으로 내용을 찾습니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+
+          <button class="card course-card" type="button" data-course="report">
+            <span class="tag">보고서</span>
+            <h3>복지기관 결과보고서 작성 실습</h3>
+            <p>사업 결과와 성과를 보고서 구조로 정리합니다.</p>
+            <span class="course-link">자료실 열기</span>
+          </button>
+        </div>
+
+        <div class="manager-box admin-only">
+          <label class="field-label" for="new-course-title">강사용 교육과정 등록</label>
+          <input class="text-input" type="text" id="new-course-title" placeholder="예: AI로 사례관리 기록 정리하기" />
+          <input class="text-input" type="text" id="new-course-tag" placeholder="예: 사례관리" />
+          <select class="select-input" id="new-course-category">
+            <option value="basic">기초 과정</option>
+            <option value="advanced">심화 과정</option>
+          </select>
+          <input class="text-input" type="text" id="new-course-summary" placeholder="과정 설명을 입력하세요." />
+          <button class="small-button" id="save-course" type="button">교육과정 추가</button>
+          <p class="helper-text">새 과정을 추가하면 실습과정, 자료, 패들렛, 프롬프트, 결과물 예시 기능이 자동으로 적용됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 선택한 과정의 실습 및 자료실입니다. 처음에는 숨겨져 있고, 과정 클릭 시 열립니다. -->
+    <section id="course-detail" class="detail-section" aria-labelledby="detail-title">
+      <div class="container">
+        <div class="admin-bar admin-only">
+          <button class="small-button" id="admin-toggle" type="button">강사용 관리 열기</button>
+        </div>
+        <div class="manager-box admin-only">
+          <label class="field-label">강사용 데이터 백업</label>
+          <div class="stack-actions">
+            <button class="small-button" id="export-data" type="button">데이터 내보내기</button>
+            <button class="small-button" id="import-data" type="button">데이터 가져오기</button>
+          </div>
+          <input type="file" id="import-data-file" accept="application/json" hidden />
+          <p class="helper-text">과정, 수업 흐름, 프롬프트, 자료 파일을 백업 파일로 저장하고 다른 기기에서 불러올 수 있습니다.</p>
+        </div>
+
+        <div class="detail-top">
+          <div>
+            <span class="tag" id="detail-tag">과정 자료실</span>
+            <h2 class="detail-title" id="detail-title">과정을 선택해 주세요</h2>
+            <p class="detail-summary" id="detail-summary"></p>
+          </div>
+          <div class="detail-actions">
+            <button class="button secondary admin-only" id="copy-course-link" type="button">이 과정 공유 링크 복사</button>
+            <button class="button secondary" id="back-to-courses" type="button">교육과정 목록으로</button>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <article class="card wide-card" id="flow-card">
+            <div class="flow-list" id="flow-list"></div>
+            <div class="manager-box admin-only">
+              <label class="field-label" for="flow-type">강사용 수업 흐름 블록 추가</label>
+              <select class="select-input" id="flow-type">
+                <option value="lesson">차시/설명</option>
+                <option value="practice">실습 과정</option>
+                <option value="prompt">프롬프트</option>
+                <option value="file">다운로드 자료</option>
+                <option value="padlet">패들렛 제출</option>
+                <option value="example">결과물 예시</option>
+                <option value="html">바이브코딩 HTML 작품</option>
+              </select>
+              <input class="text-input" type="text" id="flow-title" placeholder="예: 1차시. 온디바이스 AI 이해" />
+              <textarea class="textarea" id="flow-content" placeholder="설명, 프롬프트, 패들렛 주소, 자료 안내 등을 입력하세요."></textarea>
+              <input type="file" id="flow-file" />
+              <div class="stack-actions">
+                <button class="small-button" id="save-flow" type="button">수업 흐름에 추가</button>
+                <button class="small-button" id="clear-flow" type="button">수업 흐름 전체 삭제</button>
+              </div>
+              <p class="helper-text">원하는 순서대로 실습 설명, 프롬프트, 자료, 패들렛, HTML 실행 블록을 쌓아 수업 흐름을 만들 수 있습니다.</p>
+            </div>
+          </article>
+
+          <article class="card" id="practice-card">
+            <h3>실습 과정</h3>
+            <ul class="list" id="practice-list"></ul>
+            <div class="manager-box admin-only">
+              <label class="field-label" for="practice-title">강사용 실습과정 등록</label>
+              <input class="text-input" type="text" id="practice-title" placeholder="예: 행사 안내문 작성하기" />
+              <textarea class="textarea" id="practice-content" placeholder="실습과정 설명을 입력하세요."></textarea>
+              <input type="file" id="practice-image" accept="image/*" />
+              <button class="small-button" id="save-practice" type="button">실습과정 추가</button>
+              <p class="helper-text">제목은 굵게, 내용은 보통 글씨로 표시되고 이미지는 함께 보여줄 수 있습니다.</p>
+            </div>
+          </article>
+
+          <article class="card" id="download-card">
+            <h3>다운로드 자료</h3>
+            <div class="download-list" id="download-list"></div>
+            <div class="manager-box admin-only">
+              <label class="field-label" for="resource-files">강사용 예시자료 등록</label>
+              <input type="file" id="resource-files" multiple />
+              <p class="helper-text">파일을 선택하면 현재 과정의 다운로드 자료로 추가됩니다.</p>
+            </div>
+            <div class="manager-box admin-only">
+              <label class="field-label" for="reference-title">참고사이트 링크 등록</label>
+              <input class="text-input" type="text" id="reference-title" placeholder="예: ChatGPT 공식 도움말" />
+              <input class="text-input" type="url" id="reference-url" placeholder="https://..." />
+              <button class="small-button" id="save-reference" type="button">참고링크 저장</button>
+              <p class="helper-text">수업 중 함께 볼 사이트나 구글문서 링크를 등록할 수 있습니다.</p>
+            </div>
+          </article>
+
+          <article class="card" id="padlet-card">
+            <h3>패들렛 제출</h3>
+            <div class="upload-box">
+              <strong>교육생 실습 결과물 업로드</strong>
+              <p class="notice">과정별 패들렛 주소를 등록하면 교육생이 버튼을 눌러 제출 공간으로 이동합니다.</p>
+              <a class="button" id="padlet-link" href="#" target="_blank" rel="noopener">패들렛 제출하기</a>
+              <div class="manager-box admin-only">
+                <label class="field-label" for="padlet-url">강사용 패들렛 주소 등록</label>
+                <input class="text-input" type="url" id="padlet-url" placeholder="https://padlet.com/..." />
+                <button class="small-button" id="save-padlet" type="button">패들렛 주소 저장</button>
+                <p class="helper-text" id="padlet-message">교육마다 다른 패들렛 주소를 저장할 수 있습니다.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card wide-card" id="prompt-card">
+            <h3>실습 프롬프트</h3>
+            <div class="manager-box admin-only">
+              <label class="field-label" for="prompt-editor">강사용 프롬프트 등록</label>
+              <input class="text-input" type="text" id="prompt-title" placeholder="예: 안내문 작성 프롬프트" />
+              <textarea class="textarea" id="prompt-editor" placeholder="교육생이 복사해서 사용할 프롬프트를 입력하세요."></textarea>
+              <button class="small-button" id="save-prompt" type="button">프롬프트 추가</button>
+            </div>
+            <div class="prompt-list" id="prompt-list"></div>
+            <div class="copy-message" id="copy-message" aria-live="polite"></div>
+          </article>
+
+          <article class="card" id="example-card">
+            <h3>결과물 예시</h3>
+            <div class="example-list" id="example-list"></div>
+            <div class="manager-box admin-only">
+              <label class="field-label" for="example-images">강사용 결과물 이미지 등록</label>
+              <input type="file" id="example-images" accept="image/*" multiple />
+              <p class="helper-text">JPG, PNG 같은 이미지 파일을 등록하면 교육생이 파일 이름을 눌러 팝업으로 볼 수 있습니다.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="image-modal" id="image-modal" role="dialog" aria-modal="true" aria-labelledby="image-modal-title">
+    <div class="image-modal-panel">
+      <div class="image-modal-head">
+        <h2 class="image-modal-title" id="image-modal-title">결과물 예시</h2>
+        <button class="small-button" id="close-image-modal" type="button">닫기</button>
+      </div>
+      <img class="image-preview" id="image-preview" src="" alt="결과물 예시 이미지" />
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <strong>사회복지종사자 역량강화교육</strong><br />
+      함께 배우고, 실습하고, 현장에 적용하는 역량강화교육입니다.
+    </div>
+  </footer>
+
+  <script>
+    /*
+      ==========================================
+      과정별 자료 수정 방법
+      - title: 과정명
+      - tag: 카드 위 작은 분류명
+      - summary: 상세자료실 설명
+      - practices: 실습 과정 목록
+      - downloads: 다운로드 버튼 목록
+      - prompt: 복사해서 쓸 프롬프트
+      - exampleText/exampleLink: 결과물 예시 안내와 링크
+      ==========================================
+    */
+    const courseData = {
+      chatgpt: {
+        title: "ChatGPT 업무 활용",
+        tag: "AI 업무",
+        summary: "사회복지기관 업무 문서 작성, 요약, 안내문 작성에 ChatGPT를 활용하는 과정입니다.",
+        practices: ["행사 안내문 작성하기", "회의록 핵심 내용 요약하기", "민원 응대 문장 부드럽게 다듬기"],
+        downloads: [
+          { label: "강의 교안 PDF", type: "PDF", url: "https://example.com/chatgpt.pdf" },
+          { label: "발표자료 PPT", type: "PPT", url: "https://example.com/chatgpt.pptx" },
+          { label: "실습 활동지", type: "활동지", url: "https://example.com/chatgpt-worksheet" }
+        ],
+        prompt: "사회복지기관 담당자처럼 작성해 주세요. 다음 정보를 바탕으로 참여자가 이해하기 쉬운 행사 안내문을 만들어 주세요: 행사명, 대상, 일정, 장소, 신청방법, 문의처.",
+        exampleText: "기관 행사 안내문과 회의록 요약 결과물을 확인할 수 있습니다.",
+        exampleLink: "https://example.com/output-chatgpt"
+      },
+      opal: {
+        title: "Google Opal 복지 챗봇 만들기",
+        tag: "챗봇",
+        summary: "복지서비스 안내 챗봇의 목적, 대상, 대화 흐름을 설계하고 테스트합니다.",
+        practices: ["챗봇 이용 대상 정하기", "자주 묻는 질문과 답변 작성하기", "복지서비스 안내 대화 흐름 테스트하기"],
+        downloads: [
+          { label: "챗봇 기획서", type: "DOC", url: "https://example.com/opal-plan" },
+          { label: "대화 시나리오 양식", type: "활동지", url: "https://example.com/opal-scenario" },
+          { label: "테스트 체크리스트", type: "PDF", url: "https://example.com/opal-checklist.pdf" }
+        ],
+        prompt: "복지기관 이용자를 위한 안내 챗봇을 만들려고 합니다. 이용자가 자주 묻는 질문 10개와 친절한 답변을 표 형태로 작성해 주세요.",
+        exampleText: "복지서비스 안내 챗봇 시나리오와 테스트 결과 예시입니다.",
+        exampleLink: "https://example.com/output-opal"
+      },
+      canva: {
+        title: "Canva 홍보 콘텐츠 제작",
+        tag: "디자인",
+        summary: "복지사업 홍보에 필요한 카드뉴스, 포스터, 행사 안내 이미지를 제작합니다.",
+        practices: ["홍보 대상과 핵심 메시지 정리하기", "카드뉴스 템플릿 수정하기", "공유 링크 만들기"],
+        downloads: [
+          { label: "카드뉴스 기획안", type: "활동지", url: "https://example.com/canva-plan" },
+          { label: "Canva 템플릿 링크", type: "링크", url: "https://example.com/canva-template" },
+          { label: "홍보문구 예시", type: "PDF", url: "https://example.com/canva-copy.pdf" }
+        ],
+        prompt: "사회복지기관 홍보 담당자처럼 작성해 주세요. 다음 사업을 알리는 카드뉴스 3장 구성을 제목, 핵심 문구, 이미지 아이디어로 제안해 주세요.",
+        exampleText: "기관 홍보 카드뉴스와 포스터 결과물 예시입니다.",
+        exampleLink: "https://example.com/output-canva"
+      },
+      image: {
+        title: "생성형 AI 이미지 만들기",
+        tag: "이미지",
+        summary: "복지사업 홍보에 어울리는 이미지 콘셉트를 정하고 프롬프트를 작성합니다.",
+        practices: ["이미지 목적과 분위기 정하기", "프롬프트 작성하기", "생성 결과 비교하고 수정하기"],
+        downloads: [
+          { label: "이미지 프롬프트 예시", type: "PDF", url: "https://example.com/image-prompt.pdf" },
+          { label: "결과 비교표", type: "활동지", url: "https://example.com/image-compare" },
+          { label: "저작권 체크리스트", type: "PDF", url: "https://example.com/image-copyright.pdf" }
+        ],
+        prompt: "사회복지기관 홍보 이미지로 사용할 장면을 만들어 주세요. 따뜻하고 신뢰감 있는 분위기, 흰 배경, 파란색 포인트, 다양한 세대가 함께하는 지역복지 프로그램 느낌으로 작성해 주세요.",
+        exampleText: "홍보 이미지 프롬프트와 생성 결과 비교 예시입니다.",
+        exampleLink: "https://example.com/output-image"
+      },
+      forms: {
+        title: "구글 설문지 만족도 조사 만들기",
+        tag: "설문",
+        summary: "교육 만족도 설문을 만들고 응답 결과를 확인하는 실습 과정입니다.",
+        practices: ["설문 문항 구성하기", "구글 설문지 만들기", "응답 링크 공유와 결과 확인하기"],
+        downloads: [
+          { label: "만족도 문항 예시", type: "PDF", url: "https://example.com/forms-questions.pdf" },
+          { label: "설문 제작 활동지", type: "활동지", url: "https://example.com/forms-worksheet" },
+          { label: "결과 정리표", type: "Sheet", url: "https://example.com/forms-result-sheet" }
+        ],
+        prompt: "사회복지종사자 대상 교육 만족도 조사를 만들려고 합니다. 객관식 8문항과 주관식 2문항을 교육 운영자가 바로 사용할 수 있게 작성해 주세요.",
+        exampleText: "교육 만족도 설문지와 응답 결과표 예시입니다.",
+        exampleLink: "https://example.com/output-forms"
+      },
+      script: {
+        title: "앱스스크립트 업무 자동화",
+        tag: "자동화",
+        summary: "구글 스프레드시트와 앱스스크립트로 반복 업무를 줄이는 방법을 실습합니다.",
+        practices: ["출석부 데이터 정리하기", "자동 메일 발송 흐름 이해하기", "간단한 스크립트 실행하기"],
+        downloads: [
+          { label: "자동화 예제 코드", type: "코드", url: "https://example.com/apps-script-code" },
+          { label: "출석부 샘플", type: "Sheet", url: "https://example.com/attendance-sheet" },
+          { label: "실습 안내서", type: "PDF", url: "https://example.com/apps-script-guide.pdf" }
+        ],
+        prompt: "구글 스프레드시트 출석부를 자동으로 정리하려고 합니다. 교육생 이름, 소속, 출석 여부를 기준으로 운영자가 확인하기 쉬운 정리 방식과 자동화 아이디어를 제안해 주세요.",
+        exampleText: "출석부 정리 자동화와 안내 메일 발송 예시입니다.",
+        exampleLink: "https://example.com/output-script"
+      },
+      notebooklm: {
+        title: "NotebookLM 자료 요약과 질의응답",
+        tag: "자료분석",
+        summary: "긴 자료를 올려 핵심 내용을 요약하고 질문으로 필요한 내용을 찾습니다.",
+        practices: ["사업계획서 또는 교육자료 업로드하기", "핵심 요약 생성하기", "질문 목록 만들고 답변 확인하기"],
+        downloads: [
+          { label: "요약 실습 자료", type: "PDF", url: "https://example.com/notebooklm-source.pdf" },
+          { label: "질문 목록 양식", type: "활동지", url: "https://example.com/notebooklm-questions" },
+          { label: "요약 결과 예시", type: "DOC", url: "https://example.com/notebooklm-summary" }
+        ],
+        prompt: "다음 자료를 사회복지기관 실무자가 이해하기 쉽게 요약해 주세요. 핵심 내용 5개, 현장 적용 아이디어 3개, 추가로 확인할 질문 5개로 정리해 주세요.",
+        exampleText: "자료 요약본과 질의응답 목록 예시입니다.",
+        exampleLink: "https://example.com/output-notebooklm"
+      },
+      report: {
+        title: "복지기관 결과보고서 작성 실습",
+        tag: "보고서",
+        summary: "사업 결과와 성과를 정리하여 기관 보고서 형식으로 작성합니다.",
+        practices: ["사업 개요 정리하기", "추진내용과 참여인원 작성하기", "성과와 개선사항 문장 다듬기"],
+        downloads: [
+          { label: "결과보고서 양식", type: "DOC", url: "https://example.com/report-template" },
+          { label: "성과 작성 예시", type: "PDF", url: "https://example.com/report-example.pdf" },
+          { label: "보고서 작성 활동지", type: "활동지", url: "https://example.com/report-worksheet" }
+        ],
+        prompt: "다음 사업 내용을 바탕으로 사회복지기관 결과보고서 초안을 작성해 주세요. 항목은 사업개요, 추진내용, 참여인원, 주요성과, 향후 개선사항으로 구성해 주세요.",
+        exampleText: "복지기관 결과보고서 초안과 성과 문장 개선 예시입니다.",
+        exampleLink: "https://example.com/output-report"
+      }
+    };
+
+    const homeLinks = document.querySelectorAll('a[href="#home"]');
+    const heroSection = document.querySelector(".hero");
+    const homeShowcase = document.querySelector("#home-showcase");
+    const coursesSection = document.querySelector("#courses");
+    const courseGrid = document.querySelector("#course-grid");
+    const courseFilters = document.querySelectorAll(".course-filter");
+    const detailSection = document.querySelector("#course-detail");
+    const adminToggle = document.querySelector("#admin-toggle");
+    const exportData = document.querySelector("#export-data");
+    const importData = document.querySelector("#import-data");
+    const importDataFile = document.querySelector("#import-data-file");
+    const backToCourses = document.querySelector("#back-to-courses");
+    const copyCourseLink = document.querySelector("#copy-course-link");
+    const newCourseTitle = document.querySelector("#new-course-title");
+    const newCourseTag = document.querySelector("#new-course-tag");
+    const newCourseCategory = document.querySelector("#new-course-category");
+    const newCourseSummary = document.querySelector("#new-course-summary");
+    const saveCourse = document.querySelector("#save-course");
+    const detailTag = document.querySelector("#detail-tag");
+    const detailTitle = document.querySelector("#detail-title");
+    const detailSummary = document.querySelector("#detail-summary");
+    const flowCard = document.querySelector("#flow-card");
+    const flowList = document.querySelector("#flow-list");
+    const flowType = document.querySelector("#flow-type");
+    const flowTitle = document.querySelector("#flow-title");
+    const flowContent = document.querySelector("#flow-content");
+    const flowFile = document.querySelector("#flow-file");
+    const saveFlow = document.querySelector("#save-flow");
+    const clearFlow = document.querySelector("#clear-flow");
+    const practiceCard = document.querySelector("#practice-card");
+    const practiceList = document.querySelector("#practice-list");
+    const practiceTitle = document.querySelector("#practice-title");
+    const practiceContent = document.querySelector("#practice-content");
+    const practiceImage = document.querySelector("#practice-image");
+    const savePractice = document.querySelector("#save-practice");
+    const downloadCard = document.querySelector("#download-card");
+    const downloadList = document.querySelector("#download-list");
+    const resourceFiles = document.querySelector("#resource-files");
+    const referenceTitle = document.querySelector("#reference-title");
+    const referenceUrl = document.querySelector("#reference-url");
+    const saveReference = document.querySelector("#save-reference");
+    const padletCard = document.querySelector("#padlet-card");
+    const padletLink = document.querySelector("#padlet-link");
+    const padletUrl = document.querySelector("#padlet-url");
+    const savePadlet = document.querySelector("#save-padlet");
+    const padletMessage = document.querySelector("#padlet-message");
+    const promptTitle = document.querySelector("#prompt-title");
+    const promptEditor = document.querySelector("#prompt-editor");
+    const savePrompt = document.querySelector("#save-prompt");
+    const promptCard = document.querySelector("#prompt-card");
+    const promptList = document.querySelector("#prompt-list");
+    const copyMessage = document.querySelector("#copy-message");
+    const exampleCard = document.querySelector("#example-card");
+    const exampleList = document.querySelector("#example-list");
+    const exampleImages = document.querySelector("#example-images");
+    const imageModal = document.querySelector("#image-modal");
+    const imageModalTitle = document.querySelector("#image-modal-title");
+    const imagePreview = document.querySelector("#image-preview");
+    const closeImageModal = document.querySelector("#close-image-modal");
+
+    let currentCourseKey = "";
+    let currentCourseFilter = "basic";
+    const searchParams = new URLSearchParams(window.location.search);
+    const sharedCourseKey = searchParams.get("course");
+    let sharedCourseMode = Boolean(sharedCourseKey);
+
+    if (sharedCourseMode) {
+      document.body.classList.add("shared-course");
+    }
+    const defaultAdminPassword = "1234";
+    const defaultCourseKeys = Object.keys(courseData);
+
+    /*
+      등록한 예시자료 파일은 브라우저의 IndexedDB에 저장합니다.
+      같은 컴퓨터와 같은 브라우저에서는 새로고침 후에도 다시 보입니다.
+      다른 사람에게 공유하려면 실제 서버, 구글드라이브, LMS 등이 필요합니다.
+    */
+    const dbRequest = indexedDB.open("welfareTrainingResources", 1);
+    let resourcesDb;
+    let resolveResourcesDb;
+    const resourcesDbReady = new Promise((resolve) => {
+      resolveResourcesDb = resolve;
+    });
+
+    dbRequest.onupgradeneeded = () => {
+      const db = dbRequest.result;
+      if (!db.objectStoreNames.contains("files")) {
+        db.createObjectStore("files", { keyPath: "id" });
+      }
+    };
+
+    dbRequest.onsuccess = () => {
+      resourcesDb = dbRequest.result;
+      resolveResourcesDb();
+    };
+
+    dbRequest.onerror = () => {
+      resolveResourcesDb();
+    };
+
+    function getSavedPadlet(courseKey) {
+      return localStorage.getItem(`padlet-${courseKey}`) || "";
+    }
+
+    function getCustomCourses() {
+      const saved = localStorage.getItem("custom-courses");
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function saveCustomCourses(courses) {
+      localStorage.setItem("custom-courses", JSON.stringify(courses));
+    }
+
+    function getHiddenCourses() {
+      const saved = localStorage.getItem("hidden-courses");
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function saveHiddenCourses(courseKeys) {
+      localStorage.setItem("hidden-courses", JSON.stringify(courseKeys));
+    }
+
+    function getCourseOrder() {
+      const saved = localStorage.getItem("course-order");
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function saveCourseOrder(courseKeys) {
+      localStorage.setItem("course-order", JSON.stringify(courseKeys));
+    }
+
+    function getOrderedCourseKeys() {
+      const customCourseKeys = getCustomCourses().map((course) => course.key);
+      const allKeys = [...defaultCourseKeys, ...customCourseKeys];
+      const savedOrder = getCourseOrder().filter((courseKey) => allKeys.includes(courseKey));
+      const missingKeys = allKeys.filter((courseKey) => !savedOrder.includes(courseKey));
+      return [...savedOrder, ...missingKeys];
+    }
+
+    function moveCourse(courseKey, direction) {
+      const hiddenCourseKeys = getHiddenCourses();
+      const orderedKeys = getOrderedCourseKeys();
+      const visibleKeys = orderedKeys.filter((key) => {
+        const course = courseData[key];
+        return course && !hiddenCourseKeys.includes(key) && getCourseCategory(key, course) === currentCourseFilter;
+      });
+      const visibleIndex = visibleKeys.indexOf(courseKey);
+      const swapWith = direction === "up" ? visibleKeys[visibleIndex - 1] : visibleKeys[visibleIndex + 1];
+
+      if (!swapWith) {
+        return;
+      }
+
+      const currentIndex = orderedKeys.indexOf(courseKey);
+      const targetIndex = orderedKeys.indexOf(swapWith);
+      [orderedKeys[currentIndex], orderedKeys[targetIndex]] = [orderedKeys[targetIndex], orderedKeys[currentIndex]];
+      saveCourseOrder(orderedKeys);
+      renderCourseCards();
+    }
+
+    function deleteCourse(courseKey) {
+      if (defaultCourseKeys.includes(courseKey)) {
+        const hiddenCourses = getHiddenCourses();
+        if (!hiddenCourses.includes(courseKey)) {
+          hiddenCourses.push(courseKey);
+          saveHiddenCourses(hiddenCourses);
+        }
+      } else {
+        const customCourses = getCustomCourses().filter((course) => course.key !== courseKey);
+        saveCustomCourses(customCourses);
+        delete courseData[courseKey];
+      }
+
+      if (currentCourseKey === courseKey) {
+        showCourseList();
+      }
+
+      renderCourseCards();
+    }
+
+    function loadCustomCourses() {
+      getCustomCourses().forEach((course) => {
+        const category = course.category === "basic" ? "basic" : "advanced";
+        courseData[course.key] = {
+          title: course.title,
+          tag: course.tag,
+          category,
+          summary: course.summary,
+          exampleText: "",
+          exampleLink: ""
+        };
+      });
+    }
+
+    function makeCourseKey(title) {
+      const simpleKey = title
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9가-힣]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      return `custom-${simpleKey || Date.now()}-${Date.now()}`;
+    }
+
+    function renderCourseCards() {
+      const hiddenCourseKeys = getHiddenCourses();
+      const keys = getOrderedCourseKeys();
+
+      courseGrid.innerHTML = "";
+
+      keys.forEach((courseKey) => {
+        const course = courseData[courseKey];
+        if (!course) {
+          return;
+        }
+
+        if (hiddenCourseKeys.includes(courseKey)) {
+          return;
+        }
+
+        const category = getCourseCategory(courseKey, course);
+        if (category !== currentCourseFilter) {
+          return;
+        }
+
+        const card = document.createElement("button");
+        card.className = "card course-card";
+        card.type = "button";
+        card.dataset.course = courseKey;
+        card.innerHTML = `
+          <span class="tag">${course.tag || "교육과정"}</span>
+          <h3>${course.title}</h3>
+          <p>${course.summary || "강사가 등록한 교육과정입니다."}</p>
+          <span class="course-link">과정 열기</span>
+        `;
+
+        if (isAdminMode()) {
+          const upButton = document.createElement("span");
+          upButton.className = "small-button course-move";
+          upButton.textContent = "위로";
+          upButton.dataset.course = courseKey;
+          upButton.dataset.direction = "up";
+          upButton.style.marginTop = "14px";
+
+          const downButton = document.createElement("span");
+          downButton.className = "small-button course-move";
+          downButton.textContent = "아래로";
+          downButton.dataset.course = courseKey;
+          downButton.dataset.direction = "down";
+          downButton.style.marginTop = "14px";
+
+          const deleteButton = document.createElement("span");
+          deleteButton.className = "small-button course-delete";
+          deleteButton.textContent = "과정 삭제";
+          deleteButton.dataset.course = courseKey;
+          deleteButton.style.marginTop = "14px";
+          card.appendChild(upButton);
+          card.appendChild(downButton);
+          card.appendChild(deleteButton);
+        }
+
+        courseGrid.appendChild(card);
+      });
+    }
+
+    function getSavedPractices(courseKey) {
+      const saved = localStorage.getItem(`practices-${courseKey}`);
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function savePractices(courseKey, practices) {
+      localStorage.setItem(`practices-${courseKey}`, JSON.stringify(practices));
+    }
+
+    function getSavedPrompts(courseKey) {
+      const saved = localStorage.getItem(`prompts-${courseKey}`);
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function savePrompts(courseKey, prompts) {
+      localStorage.setItem(`prompts-${courseKey}`, JSON.stringify(prompts));
+    }
+
+    function getSavedFlow(courseKey) {
+      const saved = localStorage.getItem(`flow-${courseKey}`);
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function saveFlowBlocks(courseKey, blocks) {
+      localStorage.setItem(`flow-${courseKey}`, JSON.stringify(blocks));
+    }
+
+    function getAdminPassword() {
+      return localStorage.getItem("admin-password") || defaultAdminPassword;
+    }
+
+    function resetAdminPassword() {
+      localStorage.removeItem("admin-password");
+      alert("강사용 비밀번호가 1234로 초기화되었습니다.");
+    }
+
+    function getSavedReferences(courseKey) {
+      const saved = localStorage.getItem(`references-${courseKey}`);
+      return saved ? JSON.parse(saved) : [];
+    }
+
+    function saveReferences(courseKey, references) {
+      localStorage.setItem(`references-${courseKey}`, JSON.stringify(references));
+    }
+
+    function deleteReference(courseKey, referenceId) {
+      const references = getSavedReferences(courseKey);
+      saveReferences(courseKey, references.filter((reference) => reference.id !== referenceId));
+    }
+
+    async function saveFileRecord(record) {
+      await resourcesDbReady;
+      return new Promise((resolve) => {
+        if (!resourcesDb) {
+          resolve();
+          return;
+        }
+
+        const tx = resourcesDb.transaction("files", "readwrite");
+        tx.objectStore("files").put(record);
+        tx.oncomplete = resolve;
+      });
+    }
+
+    function getCourseFiles(courseKey) {
+      return new Promise(async (resolve) => {
+        await resourcesDbReady;
+        if (!resourcesDb) {
+          resolve([]);
+          return;
+        }
+
+        const tx = resourcesDb.transaction("files", "readonly");
+        const request = tx.objectStore("files").getAll();
+        request.onsuccess = () => {
+          resolve(request.result.filter((file) => file.courseKey === courseKey && (!file.kind || file.kind === "resource")));
+        };
+        request.onerror = () => resolve([]);
+      });
+    }
+
+    function getExampleImages(courseKey) {
+      return new Promise(async (resolve) => {
+        await resourcesDbReady;
+        if (!resourcesDb) {
+          resolve([]);
+          return;
+        }
+
+        const tx = resourcesDb.transaction("files", "readonly");
+        const request = tx.objectStore("files").getAll();
+        request.onsuccess = () => {
+          resolve(request.result.filter((file) => file.courseKey === courseKey && file.kind === "example-image"));
+        };
+        request.onerror = () => resolve([]);
+      });
+    }
+
+    function deleteFileRecord(fileId) {
+      return new Promise(async (resolve) => {
+        await resourcesDbReady;
+        if (!resourcesDb) {
+          resolve();
+          return;
+        }
+
+        const tx = resourcesDb.transaction("files", "readwrite");
+        tx.objectStore("files").delete(fileId);
+        tx.oncomplete = resolve;
+      });
+    }
+
+    function getFileRecord(fileId) {
+      return new Promise(async (resolve) => {
+        await resourcesDbReady;
+        if (!resourcesDb || !fileId) {
+          resolve(null);
+          return;
+        }
+
+        const tx = resourcesDb.transaction("files", "readonly");
+        const request = tx.objectStore("files").get(fileId);
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => resolve(null);
+      });
+    }
+
+    function getAllFileRecords() {
+      return new Promise(async (resolve) => {
+        await resourcesDbReady;
+        if (!resourcesDb) {
+          resolve([]);
+          return;
+        }
+
+        const tx = resourcesDb.transaction("files", "readonly");
+        const request = tx.objectStore("files").getAll();
+        request.onsuccess = () => resolve(request.result || []);
+        request.onerror = () => resolve([]);
+      });
+    }
+
+    function clearFileRecords() {
+      return new Promise(async (resolve) => {
+        await resourcesDbReady;
+        if (!resourcesDb) {
+          resolve();
+          return;
+        }
+
+        const tx = resourcesDb.transaction("files", "readwrite");
+        tx.objectStore("files").clear();
+        tx.oncomplete = resolve;
+        tx.onerror = resolve;
+      });
+    }
+
+    function blobToDataUrl(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    function dataUrlToBlob(dataUrl) {
+      const [header, base64] = dataUrl.split(",");
+      const mimeMatch = header.match(/data:(.*?);base64/);
+      const mime = mimeMatch ? mimeMatch[1] : "application/octet-stream";
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+
+      for (let index = 0; index < binary.length; index += 1) {
+        bytes[index] = binary.charCodeAt(index);
+      }
+
+      return new Blob([bytes], { type: mime });
+    }
+
+    function isSiteStorageKey(key) {
+      return (
+        key === "custom-courses" ||
+        key === "hidden-courses" ||
+        key === "course-order" ||
+        key === "admin-password" ||
+        key.startsWith("padlet-") ||
+        key.startsWith("practices-") ||
+        key.startsWith("prompts-") ||
+        key.startsWith("flow-") ||
+        key.startsWith("references-")
+      );
+    }
+
+    function getSiteStorageData() {
+      const data = {};
+
+      for (let index = 0; index < localStorage.length; index += 1) {
+        const key = localStorage.key(index);
+        if (key && isSiteStorageKey(key)) {
+          data[key] = localStorage.getItem(key);
+        }
+      }
+
+      return data;
+    }
+
+    function clearSiteStorageData() {
+      Object.keys(localStorage)
+        .filter(isSiteStorageKey)
+        .forEach((key) => localStorage.removeItem(key));
+    }
+
+    function getCourseCategory(courseKey, course) {
+      if (course.category === "basic" || course.category === "advanced") {
+        return course.category;
+      }
+
+      if (courseKey === "canva" || courseKey === "image" || courseKey === "script" || courseKey === "notebooklm" || courseKey === "report") {
+        return "advanced";
+      }
+
+      return "basic";
+    }
+
+    function downloadUploadedFile(fileName, blob) {
+      const fileUrl = URL.createObjectURL(blob);
+      const hiddenLink = document.createElement("a");
+      hiddenLink.href = fileUrl;
+      hiddenLink.download = fileName;
+      document.body.appendChild(hiddenLink);
+      hiddenLink.click();
+      hiddenLink.remove();
+      URL.revokeObjectURL(fileUrl);
+    }
+
+    function isAdminMode() {
+      return document.body.classList.contains("admin-mode");
+    }
+
+    function enterAdminMode() {
+      document.body.classList.add("admin-mode");
+      adminToggle.textContent = "강사용 관리 닫기";
+      renderCourseCards();
+      if (currentCourseKey) {
+        renderDownloads(currentCourseKey);
+        renderPractices(currentCourseKey);
+        renderPrompts(currentCourseKey);
+        renderExamples(currentCourseKey);
+        renderFlow(currentCourseKey);
+      }
+    }
+
+    function exitAdminMode() {
+      document.body.classList.remove("admin-mode");
+      adminToggle.textContent = "강사용 관리 열기";
+      renderCourseCards();
+      if (currentCourseKey) {
+        renderDownloads(currentCourseKey);
+        renderPractices(currentCourseKey);
+        renderPrompts(currentCourseKey);
+        renderExamples(currentCourseKey);
+        renderFlow(currentCourseKey);
+      }
+    }
+
+    function requestAdminMode() {
+      const password = window.prompt("강사용 비밀번호를 입력하세요.");
+      if (password === getAdminPassword()) {
+        enterAdminMode();
+      } else if (password !== null) {
+        alert("비밀번호가 맞지 않습니다.");
+      }
+    }
+
+    function makeDownloadItem(label, type, url, isUploaded, fileId, blob, isReference) {
+      const item = document.createElement("div");
+      item.className = "download-item";
+
+      const textWrap = document.createElement("div");
+      const title = document.createElement("strong");
+      const meta = document.createElement("span");
+      title.textContent = label;
+      meta.textContent = type;
+      textWrap.append(title, meta);
+
+      const actions = document.createElement("div");
+      actions.className = "stack-actions";
+
+      if (isUploaded) {
+        const downloadButton = document.createElement("button");
+        downloadButton.className = "small-button";
+        downloadButton.type = "button";
+        downloadButton.textContent = "다운로드";
+        downloadButton.addEventListener("click", () => {
+          downloadUploadedFile(label, blob);
+        });
+        actions.appendChild(downloadButton);
+      } else {
+        const link = document.createElement("a");
+        link.className = "small-button";
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = isReference ? "링크 열기" : "다운로드";
+        actions.appendChild(link);
+      }
+
+      if (isUploaded && isAdminMode()) {
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "small-button";
+        deleteButton.type = "button";
+        deleteButton.textContent = "삭제";
+        deleteButton.addEventListener("click", async () => {
+          await deleteFileRecord(fileId);
+          renderDownloads(currentCourseKey);
+        });
+        actions.appendChild(deleteButton);
+      }
+
+      if (isReference && isAdminMode()) {
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "small-button";
+        deleteButton.type = "button";
+        deleteButton.textContent = "삭제";
+        deleteButton.addEventListener("click", () => {
+          deleteReference(currentCourseKey, fileId);
+          renderDownloads(currentCourseKey);
+        });
+        actions.appendChild(deleteButton);
+      }
+
+      item.append(textWrap, actions);
+      return item;
+    }
+
+    async function renderDownloads(courseKey) {
+      const course = courseData[courseKey];
+      const uploadedFiles = await getCourseFiles(courseKey);
+      const references = getSavedReferences(courseKey);
+
+      downloadList.innerHTML = "";
+      downloadCard.classList.toggle("is-hidden", !isAdminMode() && uploadedFiles.length === 0 && references.length === 0);
+
+      uploadedFiles.forEach((file) => {
+        downloadList.appendChild(
+          makeDownloadItem(file.name, "강사가 등록한 예시자료", "", true, file.id, file.blob, false)
+        );
+      });
+
+      references.forEach((reference) => {
+        downloadList.appendChild(
+          makeDownloadItem(reference.title, "강사가 등록한 참고링크", reference.url, false, reference.id, null, true)
+        );
+      });
+
+      if (uploadedFiles.length === 0 && references.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty-text";
+        empty.textContent = isAdminMode()
+          ? "아직 등록된 다운로드 자료나 참고링크가 없습니다. 강사용 관리에서 자료를 등록해 주세요."
+          : "아직 등록된 다운로드 자료가 없습니다.";
+        downloadList.appendChild(empty);
+      }
+    }
+
+    async function renderFlow(courseKey) {
+      const blocks = getSavedFlow(courseKey);
+      flowList.innerHTML = "";
+      flowCard.classList.toggle("is-hidden", !isAdminMode() && blocks.length === 0);
+
+      if (blocks.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty-text";
+        empty.textContent = isAdminMode()
+          ? "아직 구성된 수업 흐름이 없습니다. 강사용 관리에서 블록을 추가해 주세요."
+          : "아직 구성된 수업 흐름이 없습니다.";
+        flowList.appendChild(empty);
+        return;
+      }
+
+      for (const block of blocks) {
+        const item = document.createElement("div");
+        item.className = "flow-block";
+
+        const title = document.createElement("h4");
+        title.textContent = block.title;
+        item.appendChild(title);
+
+        if (block.content) {
+          const content = document.createElement("p");
+          content.textContent = block.content;
+          item.appendChild(content);
+        }
+
+        if (block.fileId) {
+          const file = await getFileRecord(block.fileId);
+
+          if (file && (block.type === "lesson" || block.type === "practice") && file.blob.type.startsWith("image/")) {
+            const image = document.createElement("img");
+            image.className = "flow-image";
+            image.alt = block.title;
+            image.src = URL.createObjectURL(file.blob);
+            image.onload = () => URL.revokeObjectURL(image.src);
+            item.appendChild(image);
+          }
+
+          if (file && block.type === "example" && file.blob.type.startsWith("image/")) {
+            const image = document.createElement("img");
+            image.className = "flow-image";
+            image.alt = block.title;
+            image.src = URL.createObjectURL(file.blob);
+            image.onload = () => URL.revokeObjectURL(image.src);
+            image.addEventListener("click", () => openImageModal(file.name, file.blob));
+            item.appendChild(image);
+
+            const viewButton = document.createElement("button");
+            viewButton.className = "small-button";
+            viewButton.type = "button";
+            viewButton.textContent = "이미지 크게 보기";
+            viewButton.addEventListener("click", () => openImageModal(file.name, file.blob));
+            item.appendChild(viewButton);
+          }
+
+          if (file && block.type === "file") {
+            const downloadButton = document.createElement("button");
+            downloadButton.className = "small-button";
+            downloadButton.type = "button";
+            downloadButton.textContent = "자료 다운로드";
+            downloadButton.addEventListener("click", () => downloadUploadedFile(file.name, file.blob));
+            item.appendChild(downloadButton);
+          }
+
+          if (file && block.type === "html") {
+            const actions = document.createElement("div");
+            actions.className = "stack-actions";
+
+            const runButton = document.createElement("button");
+            runButton.className = "small-button";
+            runButton.type = "button";
+            runButton.textContent = "직접 실행";
+            runButton.addEventListener("click", () => {
+              const htmlUrl = URL.createObjectURL(file.blob);
+              window.open(htmlUrl, "_blank", "noopener");
+            });
+
+            const downloadButton = document.createElement("button");
+            downloadButton.className = "small-button";
+            downloadButton.type = "button";
+            downloadButton.textContent = "HTML 다운로드";
+            downloadButton.addEventListener("click", () => downloadUploadedFile(file.name, file.blob));
+
+            actions.append(runButton, downloadButton);
+            item.appendChild(actions);
+          }
+        }
+
+        if (block.type === "prompt") {
+          const copyButton = document.createElement("button");
+          copyButton.className = "small-button";
+          copyButton.type = "button";
+          copyButton.textContent = "프롬프트 복사";
+          copyButton.addEventListener("click", async () => {
+            await navigator.clipboard.writeText(block.content || "");
+            copyMessage.textContent = "프롬프트가 복사되었습니다.";
+            setTimeout(() => {
+              copyMessage.textContent = "";
+            }, 2200);
+          });
+          item.appendChild(copyButton);
+        }
+
+        if (block.type === "padlet") {
+          const link = document.createElement("a");
+          link.className = "small-button";
+          link.href = block.content || "#";
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.textContent = "패들렛 제출하기";
+          item.appendChild(link);
+        }
+
+        if (isAdminMode()) {
+          const actions = document.createElement("div");
+          actions.className = "stack-actions";
+
+          const upButton = document.createElement("button");
+          upButton.className = "small-button";
+          upButton.type = "button";
+          upButton.textContent = "위로";
+          upButton.addEventListener("click", () => {
+            const index = blocks.findIndex((savedBlock) => savedBlock.id === block.id);
+            if (index > 0) {
+              [blocks[index - 1], blocks[index]] = [blocks[index], blocks[index - 1]];
+              saveFlowBlocks(courseKey, blocks);
+              renderFlow(courseKey);
+            }
+          });
+
+          const downButton = document.createElement("button");
+          downButton.className = "small-button";
+          downButton.type = "button";
+          downButton.textContent = "아래로";
+          downButton.addEventListener("click", () => {
+            const index = blocks.findIndex((savedBlock) => savedBlock.id === block.id);
+            if (index < blocks.length - 1) {
+              [blocks[index + 1], blocks[index]] = [blocks[index], blocks[index + 1]];
+              saveFlowBlocks(courseKey, blocks);
+              renderFlow(courseKey);
+            }
+          });
+
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "small-button";
+          deleteButton.type = "button";
+          deleteButton.textContent = "삭제";
+          deleteButton.addEventListener("click", async () => {
+            if (block.fileId) {
+              await deleteFileRecord(block.fileId);
+            }
+            saveFlowBlocks(courseKey, blocks.filter((savedBlock) => savedBlock.id !== block.id));
+            renderFlow(courseKey);
+          });
+
+          actions.append(upButton, downButton, deleteButton);
+          item.appendChild(actions);
+        }
+
+        flowList.appendChild(item);
+      }
+    }
+
+    function renderPractices(courseKey) {
+      const practices = getSavedPractices(courseKey);
+      practiceList.innerHTML = "";
+      practiceCard.classList.toggle("is-hidden", !isAdminMode() && practices.length === 0);
+
+      if (practices.length === 0) {
+        const empty = document.createElement("li");
+        empty.textContent = isAdminMode()
+          ? "아직 등록된 실습과정이 없습니다. 강사용 관리에서 추가해 주세요."
+          : "아직 등록된 실습과정이 없습니다.";
+        practiceList.appendChild(empty);
+        return;
+      }
+
+      practices.forEach(async (practice) => {
+        const item = document.createElement("li");
+        const practiceTitleEl = document.createElement("strong");
+        practiceTitleEl.textContent = typeof practice === "string" ? practice : practice.title;
+        practiceTitleEl.style.display = "block";
+        practiceTitleEl.style.fontSize = "18px";
+        practiceTitleEl.style.marginBottom = "8px";
+        item.appendChild(practiceTitleEl);
+
+        if (practice.content) {
+          const content = document.createElement("p");
+          content.textContent = practice.content;
+          content.style.margin = "0 0 12px";
+          item.appendChild(content);
+        }
+
+        if (practice.imageId) {
+          const file = await getFileRecord(practice.imageId);
+          if (file) {
+            const image = document.createElement("img");
+            image.className = "flow-image";
+            image.alt = practice.title;
+            image.src = URL.createObjectURL(file.blob);
+            image.onload = () => URL.revokeObjectURL(image.src);
+            item.appendChild(image);
+          }
+        }
+
+        if (isAdminMode()) {
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "small-button";
+          deleteButton.type = "button";
+          deleteButton.textContent = "삭제";
+          deleteButton.style.marginTop = "8px";
+          deleteButton.addEventListener("click", async () => {
+            if (practice.imageId) {
+              await deleteFileRecord(practice.imageId);
+            }
+            savePractices(courseKey, practices.filter((savedPractice) => savedPractice.id !== practice.id));
+            renderPractices(courseKey);
+          });
+          item.appendChild(deleteButton);
+        }
+
+        practiceList.appendChild(item);
+      });
+    }
+
+    function renderPrompts(courseKey) {
+      const prompts = getSavedPrompts(courseKey);
+      promptList.innerHTML = "";
+      promptCard.classList.toggle("is-hidden", !isAdminMode() && prompts.length === 0);
+
+      if (prompts.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty-text";
+        empty.textContent = isAdminMode()
+          ? "아직 등록된 프롬프트가 없습니다. 강사용 관리에서 여러 개의 프롬프트를 추가해 주세요."
+          : "아직 등록된 프롬프트가 없습니다.";
+        promptList.appendChild(empty);
+        return;
+      }
+
+      prompts.forEach((prompt) => {
+        const item = document.createElement("div");
+        item.className = "prompt-item";
+
+        const title = document.createElement("h4");
+        title.textContent = prompt.title;
+
+        const box = document.createElement("div");
+        box.className = "prompt-box";
+        box.textContent = prompt.text;
+
+        const actions = document.createElement("div");
+        actions.className = "stack-actions";
+
+        const copyButton = document.createElement("button");
+        copyButton.className = "small-button";
+        copyButton.type = "button";
+        copyButton.textContent = "프롬프트 복사";
+        copyButton.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(prompt.text);
+            copyMessage.textContent = "프롬프트가 복사되었습니다.";
+          } catch (error) {
+            copyMessage.textContent = "복사가 지원되지 않는 브라우저입니다. 직접 선택해 복사해 주세요.";
+          }
+          setTimeout(() => {
+            copyMessage.textContent = "";
+          }, 2200);
+        });
+        actions.appendChild(copyButton);
+
+        if (isAdminMode()) {
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "small-button";
+          deleteButton.type = "button";
+          deleteButton.textContent = "삭제";
+          deleteButton.addEventListener("click", () => {
+            savePrompts(courseKey, prompts.filter((savedPrompt) => savedPrompt.id !== prompt.id));
+            renderPrompts(courseKey);
+          });
+          actions.appendChild(deleteButton);
+        }
+
+        item.append(title, box, actions);
+        promptList.appendChild(item);
+      });
+    }
+
+    function openImageModal(fileName, blob) {
+      const imageUrl = URL.createObjectURL(blob);
+      imageModalTitle.textContent = fileName;
+      imagePreview.src = imageUrl;
+      imagePreview.onload = () => URL.revokeObjectURL(imageUrl);
+      imageModal.classList.add("is-open");
+    }
+
+    function closeModal() {
+      imageModal.classList.remove("is-open");
+      imagePreview.src = "";
+    }
+
+    async function renderExamples(courseKey) {
+      const images = await getExampleImages(courseKey);
+      exampleList.innerHTML = "";
+      exampleCard.classList.toggle("is-hidden", !isAdminMode() && images.length === 0);
+
+      if (images.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty-text";
+        empty.textContent = isAdminMode()
+          ? "아직 등록된 결과물 이미지가 없습니다. 강사용 관리에서 이미지를 등록해 주세요."
+          : "아직 등록된 결과물 예시가 없습니다.";
+        exampleList.appendChild(empty);
+        return;
+      }
+
+      images.forEach((image) => {
+        const item = document.createElement("div");
+        item.className = "example-item";
+
+        const openButton = document.createElement("button");
+        openButton.className = "small-button";
+        openButton.type = "button";
+        openButton.textContent = image.name;
+        openButton.addEventListener("click", () => openImageModal(image.name, image.blob));
+
+        const actions = document.createElement("div");
+        actions.className = "stack-actions";
+
+        if (isAdminMode()) {
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "small-button";
+          deleteButton.type = "button";
+          deleteButton.textContent = "삭제";
+          deleteButton.addEventListener("click", async () => {
+            await deleteFileRecord(image.id);
+            renderExamples(courseKey);
+          });
+          actions.appendChild(deleteButton);
+        }
+
+        item.append(openButton, actions);
+        exampleList.appendChild(item);
+      });
+    }
+
+    function renderPadlet(courseKey) {
+      const savedUrl = getSavedPadlet(courseKey);
+      padletUrl.value = savedUrl;
+      padletCard.classList.toggle("is-hidden", !isAdminMode() && !savedUrl);
+
+      if (savedUrl) {
+        padletLink.href = savedUrl;
+        padletLink.removeAttribute("aria-disabled");
+        padletMessage.textContent = "등록된 패들렛 주소로 교육생이 이동할 수 있습니다.";
+      } else {
+        padletLink.href = "#";
+        padletLink.setAttribute("aria-disabled", "true");
+        padletMessage.textContent = "아직 패들렛 주소가 등록되지 않았습니다.";
+      }
+    }
+
+    async function openCourse(courseKey) {
+      const course = courseData[courseKey];
+      if (!course) {
+        return;
+      }
+      currentCourseKey = courseKey;
+
+      coursesSection.classList.add("is-hidden");
+      detailSection.classList.add("is-open");
+      detailTag.textContent = course.tag;
+      detailTitle.textContent = course.title;
+      detailSummary.textContent = course.summary;
+      promptTitle.value = "";
+      promptEditor.value = "";
+      resourceFiles.value = "";
+      exampleImages.value = "";
+      practiceTitle.value = "";
+      referenceTitle.value = "";
+      referenceUrl.value = "";
+      renderPadlet(courseKey);
+
+      await renderFlow(courseKey);
+      renderPractices(courseKey);
+      renderPrompts(courseKey);
+      await renderDownloads(courseKey);
+      await renderExamples(courseKey);
+      document.querySelector("#course-detail").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function getCourseShareUrl(courseKey) {
+      const url = new URL(window.location.href);
+      url.search = `?course=${encodeURIComponent(courseKey)}`;
+      url.hash = "";
+      return url.toString();
+    }
+
+    function showCourseList() {
+      detailSection.classList.remove("is-open");
+      heroSection.classList.add("is-hidden");
+      homeShowcase.classList.add("is-hidden");
+      coursesSection.classList.remove("is-hidden");
+      currentCourseKey = "";
+      document.querySelector("#courses").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function showHome() {
+      detailSection.classList.remove("is-open");
+      coursesSection.classList.add("is-hidden");
+      heroSection.classList.remove("is-hidden");
+      homeShowcase.classList.remove("is-hidden");
+      courseFilters.forEach((filterButton) => filterButton.classList.remove("is-active"));
+      document.querySelector("#home").scrollIntoView({ behavior: "smooth" });
+    }
+
+    courseGrid.addEventListener("click", (event) => {
+      const moveButton = event.target.closest(".course-move");
+      if (moveButton) {
+        event.stopPropagation();
+        moveCourse(moveButton.dataset.course, moveButton.dataset.direction);
+        return;
+      }
+
+      const deleteButton = event.target.closest(".course-delete");
+      if (deleteButton) {
+        event.stopPropagation();
+        const course = courseData[deleteButton.dataset.course];
+        if (window.confirm(`"${course.title}" 과정을 삭제할까요?`)) {
+          deleteCourse(deleteButton.dataset.course);
+        }
+        return;
+      }
+
+      const card = event.target.closest(".course-card");
+      if (card) {
+        openCourse(card.dataset.course);
+      }
+    });
+
+    courseFilters.forEach((button) => {
+      button.addEventListener("click", () => {
+        currentCourseFilter = button.dataset.filter;
+        courseFilters.forEach((filterButton) => filterButton.classList.remove("is-active"));
+        courseFilters.forEach((filterButton) => {
+          if (filterButton.dataset.filter === currentCourseFilter) {
+            filterButton.classList.add("is-active");
+          }
+        });
+        showCourseList();
+        renderCourseCards();
+      });
+    });
+
+    backToCourses.addEventListener("click", showCourseList);
+
+    copyCourseLink.addEventListener("click", async () => {
+      if (!currentCourseKey) {
+        return;
+      }
+
+      const shareUrl = getCourseShareUrl(currentCourseKey);
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert("이 과정 공유 링크가 복사되었습니다.");
+      } catch (error) {
+        window.prompt("아래 주소를 복사해 주세요.", shareUrl);
+      }
+    });
+
+    exportData.addEventListener("click", async () => {
+      const files = await getAllFileRecords();
+      const backupFiles = [];
+
+      for (const file of files) {
+        backupFiles.push({
+          id: file.id,
+          courseKey: file.courseKey,
+          kind: file.kind || "resource",
+          name: file.name,
+          savedAt: file.savedAt,
+          dataUrl: await blobToDataUrl(file.blob)
+        });
+      }
+
+      const backup = {
+        app: "welfare-training-site",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        localStorage: getSiteStorageData(),
+        files: backupFiles
+      };
+
+      const backupBlob = new Blob([JSON.stringify(backup, null, 2)], {
+        type: "application/json"
+      });
+      const dateText = new Date().toISOString().slice(0, 10);
+      downloadUploadedFile(`welfare-training-backup-${dateText}.json`, backupBlob);
+    });
+
+    importData.addEventListener("click", () => {
+      importDataFile.click();
+    });
+
+    importDataFile.addEventListener("change", async () => {
+      const file = importDataFile.files[0];
+      if (!file) {
+        return;
+      }
+
+      if (!window.confirm("현재 브라우저에 저장된 교육 데이터를 백업 파일 내용으로 교체할까요?")) {
+        importDataFile.value = "";
+        return;
+      }
+
+      try {
+        const backup = JSON.parse(await file.text());
+        if (backup.app !== "welfare-training-site") {
+          alert("이 사이트용 백업 파일이 아닙니다.");
+          importDataFile.value = "";
+          return;
+        }
+
+        clearSiteStorageData();
+        Object.entries(backup.localStorage || {}).forEach(([key, value]) => {
+          if (isSiteStorageKey(key)) {
+            localStorage.setItem(key, value);
+          }
+        });
+
+        await clearFileRecords();
+        for (const fileRecord of backup.files || []) {
+          await saveFileRecord({
+            id: fileRecord.id,
+            courseKey: fileRecord.courseKey,
+            kind: fileRecord.kind,
+            name: fileRecord.name,
+            savedAt: fileRecord.savedAt,
+            blob: dataUrlToBlob(fileRecord.dataUrl)
+          });
+        }
+
+        alert("백업 데이터를 가져왔습니다. 화면을 새로고침합니다.");
+        window.location.reload();
+      } catch (error) {
+        alert("백업 파일을 불러오지 못했습니다. 파일을 확인해 주세요.");
+      } finally {
+        importDataFile.value = "";
+      }
+    });
+
+    homeLinks.forEach((homeLink) => {
+      homeLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        showHome();
+      });
+    });
+
+    saveFlow.addEventListener("click", async () => {
+      if (!currentCourseKey) {
+        return;
+      }
+
+      const title = flowTitle.value.trim();
+      const content = flowContent.value.trim();
+      const type = flowType.value;
+
+      if (!title) {
+        flowTitle.placeholder = "수업 흐름 제목을 입력해 주세요.";
+        return;
+      }
+
+      const blocks = getSavedFlow(currentCourseKey);
+      const block = {
+        id: `${currentCourseKey}-flow-${Date.now()}`,
+        type,
+        title,
+        content,
+        fileId: ""
+      };
+
+      const finishSave = () => {
+        blocks.push(block);
+        saveFlowBlocks(currentCourseKey, blocks);
+        flowTitle.value = "";
+        flowContent.value = "";
+        flowFile.value = "";
+        renderFlow(currentCourseKey);
+      };
+
+      if (flowFile.files.length > 0) {
+        const file = flowFile.files[0];
+        block.fileId = `${currentCourseKey}-flow-file-${Date.now()}-${file.name}`;
+        await saveFileRecord({
+          id: block.fileId,
+          courseKey: currentCourseKey,
+          kind: "flow-file",
+          name: file.name,
+          blob: file,
+          savedAt: new Date().toISOString()
+        });
+      }
+
+      finishSave();
+    });
+
+    clearFlow.addEventListener("click", async () => {
+      if (!currentCourseKey) {
+        return;
+      }
+
+      if (!window.confirm("현재 과정의 수업 흐름을 모두 삭제할까요?")) {
+        return;
+      }
+
+      const blocks = getSavedFlow(currentCourseKey);
+      for (const block of blocks) {
+        if (block.fileId) {
+          await deleteFileRecord(block.fileId);
+        }
+      }
+
+      saveFlowBlocks(currentCourseKey, []);
+      renderFlow(currentCourseKey);
+    });
+
+    saveCourse.addEventListener("click", () => {
+      const title = newCourseTitle.value.trim();
+      const tag = newCourseTag.value.trim() || "교육과정";
+      const summary = newCourseSummary.value.trim() || "강사가 등록한 교육과정입니다.";
+      const category = newCourseCategory.value;
+
+      if (!title) {
+        newCourseTitle.placeholder = "교육과정명을 입력해 주세요.";
+        return;
+      }
+
+      const courses = getCustomCourses();
+      const key = makeCourseKey(title);
+      const course = { key, title, tag, category, summary };
+      courses.push(course);
+      saveCustomCourses(courses);
+      courseData[key] = {
+        title,
+        tag,
+        category,
+        summary,
+        exampleText: "",
+        exampleLink: ""
+      };
+      newCourseTitle.value = "";
+      newCourseTag.value = "";
+      newCourseSummary.value = "";
+      renderCourseCards();
+    });
+
+    adminToggle.addEventListener("click", () => {
+      if (isAdminMode()) {
+        exitAdminMode();
+      } else {
+        requestAdminMode();
+      }
+    });
+
+    if (searchParams.get("resetAdmin") === "1") {
+      resetAdminPassword();
+    }
+
+    if (searchParams.get("admin") === "1") {
+      requestAdminMode();
+    }
+
+    document.addEventListener("keydown", (event) => {
+      if (event.ctrlKey && event.altKey && event.code === "KeyA") {
+        requestAdminMode();
+      }
+    });
+
+    savePractice.addEventListener("click", async () => {
+      if (!currentCourseKey) {
+        return;
+      }
+
+      const title = practiceTitle.value.trim();
+      const content = practiceContent.value.trim();
+      if (!title) {
+        practiceTitle.placeholder = "실습과정 이름을 입력해 주세요.";
+        return;
+      }
+
+      const practices = getSavedPractices(currentCourseKey);
+      const practice = {
+        id: `${currentCourseKey}-${Date.now()}`,
+        title,
+        content,
+        imageId: ""
+      };
+
+      if (practiceImage.files.length > 0) {
+        const file = practiceImage.files[0];
+        practice.imageId = `${currentCourseKey}-practice-${Date.now()}-${file.name}`;
+        await saveFileRecord({
+          id: practice.imageId,
+          courseKey: currentCourseKey,
+          kind: "practice-image",
+          name: file.name,
+          blob: file,
+          savedAt: new Date().toISOString()
+        });
+      }
+
+      practices.push(practice);
+      savePractices(currentCourseKey, practices);
+      practiceTitle.value = "";
+      practiceContent.value = "";
+      practiceImage.value = "";
+      renderPractices(currentCourseKey);
+    });
+
+    resourceFiles.addEventListener("change", async () => {
+      if (!currentCourseKey || resourceFiles.files.length === 0) {
+        return;
+      }
+
+      for (const file of resourceFiles.files) {
+        await saveFileRecord({
+          id: `${currentCourseKey}-${Date.now()}-${file.name}`,
+          courseKey: currentCourseKey,
+          kind: "resource",
+          name: file.name,
+          blob: file,
+          savedAt: new Date().toISOString()
+        });
+      }
+
+      resourceFiles.value = "";
+      renderDownloads(currentCourseKey);
+    });
+
+    exampleImages.addEventListener("change", async () => {
+      if (!currentCourseKey || exampleImages.files.length === 0) {
+        return;
+      }
+
+      for (const file of exampleImages.files) {
+        await saveFileRecord({
+          id: `${currentCourseKey}-example-${Date.now()}-${file.name}`,
+          courseKey: currentCourseKey,
+          kind: "example-image",
+          name: file.name,
+          blob: file,
+          savedAt: new Date().toISOString()
+        });
+      }
+
+      exampleImages.value = "";
+      renderExamples(currentCourseKey);
+    });
+
+    closeImageModal.addEventListener("click", closeModal);
+
+    imageModal.addEventListener("click", (event) => {
+      if (event.target === imageModal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && imageModal.classList.contains("is-open")) {
+        closeModal();
+      }
+    });
+
+    saveReference.addEventListener("click", () => {
+      if (!currentCourseKey) {
+        return;
+      }
+
+      const title = referenceTitle.value.trim();
+      const url = referenceUrl.value.trim();
+
+      if (!title || !url) {
+        referenceTitle.placeholder = "링크 제목을 입력해 주세요.";
+        referenceUrl.placeholder = "링크 주소를 입력해 주세요.";
+        return;
+      }
+
+      const references = getSavedReferences(currentCourseKey);
+      references.push({
+        id: `${currentCourseKey}-${Date.now()}`,
+        title,
+        url
+      });
+      saveReferences(currentCourseKey, references);
+      referenceTitle.value = "";
+      referenceUrl.value = "";
+      renderDownloads(currentCourseKey);
+    });
+
+    savePadlet.addEventListener("click", () => {
+      if (!currentCourseKey) {
+        return;
+      }
+
+      const url = padletUrl.value.trim();
+      localStorage.setItem(`padlet-${currentCourseKey}`, url);
+      renderPadlet(currentCourseKey);
+    });
+
+    padletLink.addEventListener("click", (event) => {
+      if (!getSavedPadlet(currentCourseKey)) {
+        event.preventDefault();
+        padletMessage.textContent = "먼저 이 과정의 패들렛 주소를 등록해 주세요.";
+      }
+    });
+
+    savePrompt.addEventListener("click", () => {
+      if (!currentCourseKey) {
+        return;
+      }
+
+      const title = promptTitle.value.trim();
+      const text = promptEditor.value.trim();
+
+      if (!title || !text) {
+        promptTitle.placeholder = "프롬프트 제목을 입력해 주세요.";
+        promptEditor.placeholder = "프롬프트 내용을 입력해 주세요.";
+        return;
+      }
+
+      const prompts = getSavedPrompts(currentCourseKey);
+      prompts.push({
+        id: `${currentCourseKey}-${Date.now()}`,
+        title,
+        text
+      });
+      savePrompts(currentCourseKey, prompts);
+      promptTitle.value = "";
+      promptEditor.value = "";
+      renderPrompts(currentCourseKey);
+      copyMessage.textContent = "프롬프트가 저장되었습니다.";
+      setTimeout(() => {
+        copyMessage.textContent = "";
+      }, 2200);
+    });
+
+    loadCustomCourses();
+    renderCourseCards();
+
+    if (sharedCourseKey) {
+      openCourse(sharedCourseKey);
+    }
+  </script>
+</body>
+</html>
