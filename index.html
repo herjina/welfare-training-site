@@ -1968,17 +1968,9 @@
     }
 
     async function getPublishedBackup() {
-      try {
-        if (window.location.protocol !== "file:") {
-          const response = await fetch("welfare-training-backup-2026-06-28.json", { cache: "no-store" });
-          if (response.ok) {
-            return response.json();
-          }
-        }
-      } catch (error) {
-        console.warn("공개 백업 파일을 불러오지 못했습니다.", error);
-      }
-
+      // index.html 안에 내장된 최신 데이터를 항상 기준으로 삼습니다.
+      // (예전에는 별도 파일(welfare-training-backup-2026-06-28.json)을 먼저 불러왔는데,
+      //  그 파일을 매번 같이 갱신하는 걸 잊기 쉬워서 오래된 데이터가 보이는 버그가 있었습니다.)
       return getInlinePublishedBackup();
     }
 
