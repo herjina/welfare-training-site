@@ -625,6 +625,14 @@
       font-weight: 800;
     }
 
+    .field-sublabel {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
     .text-input,
     .textarea {
       width: 100%;
@@ -935,6 +943,7 @@
         <a href="#home">홈</a>
         <button class="course-filter is-active" type="button" data-filter="basic">기초 과정</button>
         <button class="course-filter" type="button" data-filter="advanced">심화 과정</button>
+        <button class="course-filter" type="button" data-filter="practice">실습 과정</button>
         <button class="small-button" id="admin-toggle-header" type="button">관리자모드</button>
       </nav>
     </div>
@@ -1046,16 +1055,29 @@
         </div>
 
         <div class="manager-box admin-only">
-          <label class="field-label" for="new-course-title">강사용 교육과정 등록</label>
-          <input class="text-input" type="text" id="new-course-title" placeholder="예: AI로 사례관리 기록 정리하기" />
-          <input class="text-input" type="text" id="new-course-tag" placeholder="예: 사례관리" />
+          <label class="field-label" for="new-course-title" id="course-form-label">강사용 교육과정 등록</label>
+
+          <label class="field-sublabel" for="new-course-tag">영역</label>
+          <input class="text-input" type="text" id="new-course-tag" placeholder="여기에 써주세요. 예: 사례관리" />
+
+          <label class="field-sublabel" for="new-course-category">카테고리</label>
           <select class="select-input" id="new-course-category">
             <option value="basic">기초 과정</option>
             <option value="advanced">심화 과정</option>
+            <option value="practice">실습 과정</option>
           </select>
-          <input class="text-input" type="text" id="new-course-summary" placeholder="과정 설명을 입력하세요." />
-          <button class="small-button" id="save-course" type="button">교육과정 추가</button>
-          <p class="helper-text">새 과정을 추가하면 실습과정, 자료, 패들렛, 프롬프트, 결과물 예시 기능이 자동으로 적용됩니다.</p>
+
+          <label class="field-sublabel" for="new-course-title">제목</label>
+          <input class="text-input" type="text" id="new-course-title" placeholder="여기에 써주세요. 예: AI로 사례관리 기록 정리하기" />
+
+          <label class="field-sublabel" for="new-course-summary">설명</label>
+          <input class="text-input" type="text" id="new-course-summary" placeholder="여기에 써주세요. 과정을 한 줄로 설명해주세요." />
+
+          <div class="stack-actions">
+            <button class="small-button" id="save-course" type="button">교육과정 추가</button>
+            <button class="small-button" id="cancel-edit-course" type="button" hidden>수정 취소</button>
+          </div>
+          <p class="helper-text">새 과정을 추가하면 실습과정, 자료, 패들렛, 프롬프트, 결과물 예시 기능이 자동으로 적용됩니다. 기존 과정의 "과정 수정" 버튼을 누르면 이 칸에 불러와서 고칠 수 있어요.</p>
         </div>
 
         <div class="manager-box admin-only">
@@ -1385,6 +1407,36 @@
     const newCourseCategory = document.querySelector("#new-course-category");
     const newCourseSummary = document.querySelector("#new-course-summary");
     const saveCourse = document.querySelector("#save-course");
+    const cancelEditCourseButton = document.querySelector("#cancel-edit-course");
+    const courseFormLabel = document.querySelector("#course-form-label");
+    let editingCourseKey = null;
+
+    function startEditCourse(courseKey) {
+      const course = courseData[courseKey];
+      if (!course) {
+        return;
+      }
+      editingCourseKey = courseKey;
+      newCourseTitle.value = course.title || "";
+      newCourseTag.value = course.tag || "";
+      newCourseSummary.value = course.summary || "";
+      newCourseCategory.value = getCourseCategory(courseKey, course);
+      courseFormLabel.textContent = `"${course.title}" 과정 수정 중`;
+      saveCourse.textContent = "수정 내용 저장";
+      cancelEditCourseButton.hidden = false;
+      newCourseTitle.scrollIntoView({ behavior: "smooth", block: "center" });
+      newCourseTitle.focus();
+    }
+
+    function cancelEditCourse() {
+      editingCourseKey = null;
+      newCourseTitle.value = "";
+      newCourseTag.value = "";
+      newCourseSummary.value = "";
+      courseFormLabel.textContent = "강사용 교육과정 등록";
+      saveCourse.textContent = "교육과정 추가";
+      cancelEditCourseButton.hidden = true;
+    }
     const detailTag = document.querySelector("#detail-tag");
     const detailTitle = document.querySelector("#detail-title");
     const detailSummary = document.querySelector("#detail-summary");
@@ -1659,6 +1711,12 @@
           downButton.dataset.direction = "down";
           downButton.style.marginTop = "14px";
 
+          const editButton = document.createElement("span");
+          editButton.className = "small-button course-edit";
+          editButton.textContent = "과정 수정";
+          editButton.dataset.course = courseKey;
+          editButton.style.marginTop = "14px";
+
           const deleteButton = document.createElement("span");
           deleteButton.className = "small-button course-delete";
           deleteButton.textContent = "과정 삭제";
@@ -1666,6 +1724,7 @@
           deleteButton.style.marginTop = "14px";
           card.appendChild(upButton);
           card.appendChild(downButton);
+          card.appendChild(editButton);
           card.appendChild(deleteButton);
         }
 
@@ -1999,7 +2058,7 @@
     }
 
     function getCourseCategory(courseKey, course) {
-      if (course.category === "basic" || course.category === "advanced") {
+      if (course.category === "basic" || course.category === "advanced" || course.category === "practice") {
         return course.category;
       }
 
@@ -2628,11 +2687,21 @@
         return;
       }
 
+      const editButton = event.target.closest(".course-edit");
+      if (editButton) {
+        event.stopPropagation();
+        startEditCourse(editButton.dataset.course);
+        return;
+      }
+
       const deleteButton = event.target.closest(".course-delete");
       if (deleteButton) {
         event.stopPropagation();
         const course = courseData[deleteButton.dataset.course];
         if (window.confirm(`"${course.title}" 과정을 삭제할까요?`)) {
+          if (editingCourseKey === deleteButton.dataset.course) {
+            cancelEditCourse();
+          }
           deleteCourse(deleteButton.dataset.course);
         }
         return;
@@ -2844,6 +2913,30 @@
         return;
       }
 
+      if (editingCourseKey) {
+        const courses = getCustomCourses();
+        const index = courses.findIndex((item) => item.key === editingCourseKey);
+        if (index !== -1) {
+          courses[index] = { ...courses[index], title, tag, category, summary };
+          saveCustomCourses(courses);
+        }
+        courseData[editingCourseKey] = {
+          ...courseData[editingCourseKey],
+          title,
+          tag,
+          category,
+          summary
+        };
+        cancelEditCourse();
+        renderCourseCards();
+        if (currentCourseKey === editingCourseKey) {
+          detailTag.textContent = tag;
+          detailTitle.textContent = title;
+          detailSummary.textContent = summary;
+        }
+        return;
+      }
+
       const courses = getCustomCourses();
       const key = makeCourseKey(title);
       const course = { key, title, tag, category, summary };
@@ -2862,6 +2955,8 @@
       newCourseSummary.value = "";
       renderCourseCards();
     });
+
+    cancelEditCourseButton.addEventListener("click", cancelEditCourse);
 
     adminToggles.forEach((btn) => {
       btn.addEventListener("click", () => {
