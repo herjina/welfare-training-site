@@ -39,6 +39,7 @@
     h1, h2, h3, h4 {
       word-break: keep-all;
       overflow-wrap: break-word;
+      white-space: pre-line;
     }
 
     html {
@@ -392,6 +393,9 @@
       color: var(--blue-dark);
       font-size: 13px;
       font-weight: 800;
+      white-space: pre-line;
+      word-break: keep-all;
+      text-align: center;
     }
 
     .card h3 {
@@ -405,6 +409,9 @@
     .card p {
       margin: 0;
       color: var(--muted);
+      white-space: pre-line;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
 
     .course-link {
@@ -470,6 +477,9 @@
       margin: 10px 0 0;
       color: var(--muted);
       font-size: 17px;
+      white-space: pre-line;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
 
     .button {
@@ -1057,8 +1067,8 @@
         <div class="manager-box admin-only">
           <label class="field-label" for="new-course-title" id="course-form-label">강사용 교육과정 등록</label>
 
-          <label class="field-sublabel" for="new-course-tag">영역</label>
-          <input class="text-input" type="text" id="new-course-tag" placeholder="여기에 써주세요. 예: 사례관리" />
+          <label class="field-sublabel" for="new-course-tag">영역 (엔터로 줄바꿈 가능)</label>
+          <textarea class="text-input" id="new-course-tag" rows="1" style="min-height:42px; resize:vertical; line-height:1.4;" placeholder="여기에 써주세요. 예: 사례관리"></textarea>
 
           <label class="field-sublabel" for="new-course-category">카테고리</label>
           <select class="select-input" id="new-course-category">
@@ -1067,11 +1077,11 @@
             <option value="practice">실습 과정</option>
           </select>
 
-          <label class="field-sublabel" for="new-course-title">제목</label>
-          <input class="text-input" type="text" id="new-course-title" placeholder="여기에 써주세요. 예: AI로 사례관리 기록 정리하기" />
+          <label class="field-sublabel" for="new-course-title">제목 (엔터로 줄바꿈 가능)</label>
+          <textarea class="text-input" id="new-course-title" rows="2" style="min-height:60px; resize:vertical; line-height:1.4;" placeholder="여기에 써주세요. 원하는 곳에서 엔터를 눌러 줄바꿈할 수 있어요. 예: AI로 사례관리&#10;기록 정리하기"></textarea>
 
-          <label class="field-sublabel" for="new-course-summary">설명</label>
-          <input class="text-input" type="text" id="new-course-summary" placeholder="여기에 써주세요. 과정을 한 줄로 설명해주세요." />
+          <label class="field-sublabel" for="new-course-summary">설명 (엔터로 줄바꿈 가능)</label>
+          <textarea class="text-input" id="new-course-summary" rows="2" style="min-height:60px; resize:vertical; line-height:1.4;" placeholder="여기에 써주세요. 과정을 설명해주세요."></textarea>
 
           <div class="stack-actions">
             <button class="small-button" id="save-course" type="button">교육과정 추가</button>
