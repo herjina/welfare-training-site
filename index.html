@@ -1001,6 +1001,9 @@
         </p>
         <div class="hero-actions">
           <button class="button course-filter" type="button" data-filter="basic">기초 과정 보기</button>
+          <button class="button secondary course-filter" type="button" data-filter="intermediate">중급 과정 보기</button>
+          <button class="button secondary course-filter" type="button" data-filter="advanced">고급 과정 보기</button>
+          <button class="button secondary course-filter" type="button" data-filter="deepdive">심화 과정 보기</button>
           <button class="button secondary course-filter" type="button" data-filter="practice">실습 과정 보기</button>
         </div>
       </div>
@@ -1740,7 +1743,9 @@
 
       homeOpenGrid.innerHTML = "";
 
-      if (keys.length === 0) {
+      const isHomeViewActive = !heroSection.classList.contains("is-hidden");
+
+      if (!isHomeViewActive || keys.length === 0) {
         homeOpenSection.classList.add("is-hidden");
         return;
       }
